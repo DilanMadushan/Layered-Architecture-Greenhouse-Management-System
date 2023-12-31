@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
-    public boolean saveEmployee(EmployeeDto dto) throws SQLException {
+    public boolean save(EmployeeDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql ="INSERT INTO employee VALUES(?,?,?,?,?,?)";
@@ -33,7 +33,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     }
 
-    public boolean deleteEmployee(String id) throws SQLException {
+    public boolean delete(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "DELETE FROM employee WHERE emp_id = ?";
@@ -49,7 +49,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return false;
     }
 
-    public boolean updateEmployee(EmployeeDto dto) throws SQLException {
+    public boolean update(EmployeeDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE employee SET name = ?, age = ?, address = ?," +
@@ -72,7 +72,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return false;
     }
 
-    public List<EmployeeDto> getAllEmployee() throws SQLException {
+    public List<EmployeeDto> loadAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql ="SELECT * FROM employee";
@@ -95,7 +95,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return dto;
     }
 
-    public int getEmployeCount() throws SQLException {
+    public int getCount() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT COUNT(*) AS num_Employee FROM employee";
@@ -111,7 +111,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return count;
     }
 
-    public String getEmployeeName(String id) throws SQLException {
+    public String getName(String id) throws SQLException {
 
         Connection connection = DbConnection.getInstance().getConnection();
         String sql ="SELECT name FROM employee WHERE emp_id = ?";
@@ -128,7 +128,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return name;
     }
 
-    public EmployeeDto getEmployeeDetails(String id) throws SQLException {
+    public EmployeeDto search(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql ="SELECT * FROM employee WHERE emp_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);

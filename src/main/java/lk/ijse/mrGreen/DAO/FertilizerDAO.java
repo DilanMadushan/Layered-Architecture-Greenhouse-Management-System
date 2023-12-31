@@ -10,12 +10,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface FertilizerDAO {
-    boolean SaveFertilizer(Fertilizerdto dto) throws SQLException;
-
-    boolean deleteFertilizer(String id) throws SQLException;
-
-    boolean updateFertilizer(Fertilizerdto dto) throws SQLException;
-
-    List<Fertilizerdto> getAllFertilizer() throws SQLException;
+public interface FertilizerDAO extends CrudDao<Fertilizerdto> {
+//    boolean SaveFertilizer(Fertilizerdto dto) throws SQLException;
+//
+//    boolean deleteFertilizer(String id) throws SQLException;
+//
+//    boolean updateFertilizer(Fertilizerdto dto) throws SQLException;
+//
+//    List<Fertilizerdto> getAllFertilizer() throws SQLException;
 }

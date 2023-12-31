@@ -80,7 +80,7 @@ public class GreenhouseFormController {
         ObservableList<GreenHouseTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<GreenHouseDto> dtoList = greenHouseDAO.getAllGreenhouse();
+            List<GreenHouseDto> dtoList = greenHouseDAO.loadAll();
             for (GreenHouseDto dto: dtoList) {
                 obList.add(new GreenHouseTm(
                         dto.getId(),
@@ -110,7 +110,7 @@ public class GreenhouseFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<LettuceDto> lettuceDto= lettuceDAO.getAllLettuceDetails();
+            List<LettuceDto> lettuceDto= lettuceDAO.loadAll();
 
             for (LettuceDto dto: lettuceDto) {
                 obList.add(dto.getId());
@@ -136,7 +136,7 @@ public class GreenhouseFormController {
             var dto = new GreenHouseDto(id, name, letId, 0, temp, ph);
 
             try {
-                boolean isSaved = greenHouseDAO.saveGreenhouse(dto);
+                boolean isSaved = greenHouseDAO.save(dto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Added Successfully").show();
@@ -193,7 +193,7 @@ public class GreenhouseFormController {
         String id = txtId.getText();
 
         try {
-            boolean isDelete= greenHouseDAO.deleteGreenhouse(id);
+            boolean isDelete= greenHouseDAO.delete(id);
 
             if (isDelete) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Delete Successfully").show();
@@ -224,7 +224,7 @@ public class GreenhouseFormController {
             var dto = new GreenHouseDto(id, name, letId, 0, temp, ph);
 
             try {
-                boolean isUpdated = greenHouseDAO.updateGreenhouse(dto);
+                boolean isUpdated = greenHouseDAO.update(dto);
 
                 if (isUpdated) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Update Successfully").show();

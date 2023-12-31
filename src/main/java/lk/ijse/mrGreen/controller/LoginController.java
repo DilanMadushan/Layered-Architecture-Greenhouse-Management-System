@@ -52,7 +52,7 @@ public class LoginController {
         String password= txtPassword.getText();
 
         try {
-            UserDto userDto = userDAO.checkUser(name);
+            UserDto userDto = userDAO.search(name);
             if(userDto!=null){
                 if( name.equals(userDto.getName()) && password.equals(userDto.getPassword())){
                     AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/DashBoard.fxml"));

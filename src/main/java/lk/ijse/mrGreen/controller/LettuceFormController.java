@@ -108,7 +108,7 @@ public class LettuceFormController {
     ObservableList<LettuceTm> obList= FXCollections.observableArrayList();
 
         try {
-            List<LettuceDto> dto = lettuceDAO.getAllLettuceDetails();
+            List<LettuceDto> dto = lettuceDAO.loadAll();
 
             for (LettuceDto list: dto) {
                 obList.add(new LettuceTm(
@@ -135,7 +135,7 @@ public class LettuceFormController {
 
 
         try {
-            List<SupplierDto> supDto = supplierDAO.loadAllSupplier();
+            List<SupplierDto> supDto = supplierDAO.loadAll();
             for (SupplierDto dto: supDto) {
                 obList.add(dto.getSup_id());
             }
@@ -167,7 +167,7 @@ public class LettuceFormController {
 
 
             try {
-                boolean isSaved = lettuceDAO.saveLettuce(dto);
+                boolean isSaved = lettuceDAO.save(dto);
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Saved Successfully").show();
                     initialize();
@@ -243,7 +243,7 @@ public class LettuceFormController {
         String id=txtId.getText();
 
         try {
-            boolean isDelete =lettuceDAO.deleteLettuce(id);
+            boolean isDelete =lettuceDAO.delete(id);
 
             if (isDelete) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Delete Successfully").show();
@@ -276,7 +276,7 @@ public class LettuceFormController {
             var dto = new LettuceDto(id, name, temp, humid, qty, seed, unit, suppId);
 
             try {
-                boolean isUpdated = lettuceDAO.updateLettuce(dto);
+                boolean isUpdated = lettuceDAO.update(dto);
                 if (isUpdated) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Updated Successfully").show();
                     initialize();

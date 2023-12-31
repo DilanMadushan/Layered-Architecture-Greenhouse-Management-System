@@ -10,16 +10,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface SupplierDAO {
-    public List<SupplierDto> loadAllSupplier() throws SQLException ;
-
-    public boolean saveSupplier(SupplierDto dto) throws SQLException ;
-
-    public boolean deleteSupplier(String id) throws SQLException ;
-
-    public boolean updateSupplier(SupplierDto dto) throws SQLException ;
-
-    public int getSupplierCount() throws SQLException ;
-
-    public SupplierDto getSupplierDetails(String suppId) throws SQLException ;
+public interface SupplierDAO extends CrudDao <SupplierDto> {
+//    public List<SupplierDto> loadAllSupplier() throws SQLException ;
+//
+//    public boolean saveSupplier(SupplierDto dto) throws SQLException ;
+//
+//    public boolean deleteSupplier(String id) throws SQLException ;
+//
+//    public boolean updateSupplier(SupplierDto dto) throws SQLException ;
+//
+//    public int getSupplierCount() throws SQLException ;
+//
+//    public SupplierDto getSupplierDetails(String suppId) throws SQLException ;
 }

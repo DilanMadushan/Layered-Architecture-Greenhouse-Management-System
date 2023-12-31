@@ -6,11 +6,13 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lk.ijse.mrGreen.DAO.UserDAO;
 import lk.ijse.mrGreen.DAO.UserDAOImpl;
+import lk.ijse.mrGreen.dto.UserDto;
 
 
 import java.sql.SQLException;
@@ -32,6 +34,14 @@ public class ForgetFormController {
         String name = txtUserName.getText();
 
         try {
+
+            UserDto isUSer = userDAO.search(name);
+
+            if (isUSer==null){
+                new Alert(Alert.AlertType.ERROR,"You are not a User").show();
+                return;
+            }
+
             String pw = userDAO.getPassword(name);
             String email = userDAO.getEmail(name);
 

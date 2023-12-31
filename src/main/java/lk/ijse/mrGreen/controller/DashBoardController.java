@@ -17,7 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.mrGreen.DAO.*;
-import lk.ijse.mrGreen.model.*;
+
 
 
 import java.io.IOException;
@@ -79,7 +79,7 @@ public class DashBoardController {
 
     private void setSupplierCount() {
         try {
-            String suppCount = Integer.toString(supplierDAO.getSupplierCount());
+            String suppCount = Integer.toString(supplierDAO.getCount());
             txtSupplier.setText(suppCount);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -88,7 +88,7 @@ public class DashBoardController {
 
     private void setOrderCount() {
         try {
-            String count = Integer.toString(orderDAO.getOrderCount());
+            String count = Integer.toString(orderDAO.getCount());
             txtOrders.setText(count);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -98,7 +98,7 @@ public class DashBoardController {
     private void setGreenhouseCount() {
 
         try {
-            String Count = Integer.toString(greenHouseDAO.getGreenhouseCount());
+            String Count = Integer.toString(greenHouseDAO.getCount());
             txtGreenhouse.setText(Count);
 
         } catch (SQLException e) {
@@ -109,7 +109,7 @@ public class DashBoardController {
 
     private void setCustomerCount() {
         try {
-            String count = Integer.toString(customerDAO.getCustomerCount());
+            String count = Integer.toString(customerDAO.getCount());
             txtCustomer.setText(count);
 
         } catch (SQLException e) {
@@ -119,7 +119,7 @@ public class DashBoardController {
 
     private void setEmployeeCount() {
         try {
-            String count = Integer.toString(employeeDAO.getEmployeCount());
+            String count = Integer.toString(employeeDAO.getCount());
             txtEmployee.setText(count);
 
         } catch (SQLException e) {

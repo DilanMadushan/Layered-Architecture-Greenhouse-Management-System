@@ -17,10 +17,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lk.ijse.mrGreen.DAO.*;
-import lk.ijse.mrGreen.dto.CustomerDto;
-import lk.ijse.mrGreen.dto.LettuceDto;
-import lk.ijse.mrGreen.dto.PlaceOrderDto;
-import lk.ijse.mrGreen.model.PlaceOrderModel;
+import lk.ijse.mrGreen.db.DbConnection;
+import lk.ijse.mrGreen.dto.*;
 import lk.ijse.mrGreen.dto.tm.CartTm;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -30,6 +28,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
@@ -97,7 +96,7 @@ public class OrderFormController {
     private LettuceDAO lettuceDAO = new LettuceDAOImpl();
     private ObservableList<CartTm> obList =FXCollections.observableArrayList();
 
-    private PlaceOrderModel placeOrderModel = new PlaceOrderModel();
+    private OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
 
     public void initialize(){
         genarateOrderId();
@@ -122,7 +121,7 @@ public class OrderFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<LettuceDto> dtoList = lettuceDAO.getAllLettuceDetails();
+            List<LettuceDto> dtoList = lettuceDAO.loadAll();
             for (LettuceDto dto: dtoList) {
                 obList.add(dto.getId());
             }
@@ -136,7 +135,7 @@ public class OrderFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> dtoList = customerDAO.loadAllCustomer();
+            List<CustomerDto> dtoList = customerDAO.loadAll();
             for (CustomerDto dto: dtoList) {
                 obList.add(dto.getId());
             }
@@ -259,7 +258,7 @@ public class OrderFormController {
         System.out.println(placeOrderDto);
 
         try {
-            boolean isSuccess = placeOrderModel.placeOrder(placeOrderDto);
+            boolean isSuccess = placeOrder(placeOrderDto);
             if (isSuccess) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Order Success").show();
             }else{
@@ -273,6 +272,49 @@ public class OrderFormController {
         initialize();
 
 
+    }
+    public boolean placeOrder(PlaceOrderDto placeOrderDto) throws SQLException {
+        String o_id = placeOrderDto.getOrder_id();
+        String cus_id = placeOrderDto.getCus_id();
+        LocalDate date = placeOrderDto.getDate();
+
+        Connection connection = null;
+
+        try {
+
+            connection = DbConnection.getInstance().getConnection();
+            connection.setAutoCommit(false);
+
+
+            boolean isOrderSaved = orderDAO.save(new OrderDto(o_id, cus_id, date));
+            System.out.println("1 " + isOrderSaved );
+            if (isOrderSaved) {
+                System.out.println("1 " + isOrderSaved );
+                boolean isUpdate = lettuceDAO.updateLettuceQty(placeOrderDto.getCartTmList());
+                if (isUpdate) {
+                    System.out.println("1 " + isUpdate);
+                    boolean isOrderDetailSaved = orderDetailDAO.save(new OrderDetailsDto( placeOrderDto.getOrder_id(), placeOrderDto.getCartTmList()));
+                    if (isOrderDetailSaved) {
+                        System.out.println("1 " + isOrderDetailSaved);
+                        connection.commit();
+                    }else {
+                        connection.rollback();
+                    }
+                }else {
+                    connection.rollback();
+                }
+            }else {
+                connection.rollback();
+            }
+
+        }catch (SQLException e){
+            if(connection!= null) connection.rollback();
+            e.printStackTrace();
+        }
+        finally {
+            if(connection!= null) connection.setAutoCommit(true);
+        }
+        return true;
     }
 
     private void printBill(double total,String id) throws JRException {
@@ -310,7 +352,7 @@ public class OrderFormController {
         String id = (String) cmbLettId.getValue();
 
         try {
-            LettuceDto dtoList = lettuceDAO.getLettueDetails(id);
+            LettuceDto dtoList = lettuceDAO.search(id);
 
             txtLettName.setText(dtoList.getName());
             txtQtyOnHand.setText(Double.toString(dtoList.getQty()));

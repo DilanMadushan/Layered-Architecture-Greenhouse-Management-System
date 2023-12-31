@@ -53,7 +53,7 @@ public class ReportFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<SupplierDto> dtoList = supplierDAO.loadAllSupplier() ;
+            List<SupplierDto> dtoList = supplierDAO.loadAll() ;
             for (SupplierDto dto: dtoList) {
                 obList.add(dto.getSup_id());
             }
@@ -67,7 +67,7 @@ public class ReportFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> dtoList = employeeDAO.getAllEmployee();
+            List<EmployeeDto> dtoList = employeeDAO.loadAll();
             for (EmployeeDto dto: dtoList) {
                 obList.add(dto.getId());
             }
@@ -82,7 +82,7 @@ public class ReportFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> dtoList = customerDAO.loadAllCustomer();
+            List<CustomerDto> dtoList = customerDAO.loadAll();
             for (CustomerDto  dto: dtoList) {
                 obList.add(dto.getId());
             }
@@ -103,7 +103,7 @@ public class ReportFormController {
         }
 
         try {
-            CustomerDto dto = customerDAO.getCustomerDetils(cus_id);
+            CustomerDto dto = customerDAO.search(cus_id);
             System.out.println(dto.getId());
             System.out.println(dto.getName());
             System.out.println(dto.getAddress());
@@ -162,7 +162,7 @@ public class ReportFormController {
         }
 
         try {
-            EmployeeDto dto = employeeDAO.getEmployeeDetails(empId);
+            EmployeeDto dto = employeeDAO.search(empId);
             if (dto!=null) {
                 viewEmployeeReport(dto);
             }
@@ -204,7 +204,7 @@ public class ReportFormController {
         }
 
         try {
-            SupplierDto dto = supplierDAO.getSupplierDetails(suppId);
+            SupplierDto dto = supplierDAO.search(suppId);
             if(dto!=null){
                 viewSupplierReport(dto);
             }

@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAOImpl implements UserDAO {
-    public UserDto checkUser(String name) throws SQLException {
+public class UserDAOImpl implements UserDAO  {
+    public UserDto search(String name) throws SQLException {
         Connection connection= DbConnection.getInstance().getConnection();
 
         String sql ="SELECT * FROM user WHERE name = ?";
@@ -34,7 +34,22 @@ public class UserDAOImpl implements UserDAO {
         return dto;
     }
 
-    public List<UserDto> loadAllUseres() throws SQLException {
+    @Override
+    public boolean save(UserDto dto) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean delete(String id) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean update(UserDto dto) throws SQLException {
+        return false;
+    }
+
+    public List<UserDto> loadAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "SELECT * FROM user";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -52,6 +67,16 @@ public class UserDAOImpl implements UserDAO {
             ));
         }
         return dtoList;
+    }
+
+    @Override
+    public int getCount() throws SQLException {
+        return 0;
+    }
+
+    @Override
+    public String getName(String id) throws SQLException {
+        return null;
     }
 
     public String getPassword(String name) throws SQLException {

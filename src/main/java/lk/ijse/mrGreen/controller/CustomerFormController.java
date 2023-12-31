@@ -69,7 +69,7 @@ public class CustomerFormController {
         ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> dtoList =customerDAO.loadAllCustomer();
+            List<CustomerDto> dtoList =customerDAO.loadAll();
 
             for (CustomerDto dto: dtoList) {
                 obList.add(new CustomerTm(
@@ -108,7 +108,7 @@ public class CustomerFormController {
             CustomerDto dto = new CustomerDto(id, name, address, tel);
 
             try {
-                boolean isSaved = customerDAO.saveCustomer(dto);
+                boolean isSaved = customerDAO.save(dto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Added Successfilly").show();
@@ -160,7 +160,7 @@ public class CustomerFormController {
         String id = txtId.getText();
 
         try {
-            boolean isDelete = customerDAO.deleteCustomer(id);
+            boolean isDelete = customerDAO.delete(id);
             if (isDelete) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Delete Successfully").show();
                 initialize();
@@ -187,7 +187,7 @@ public class CustomerFormController {
             CustomerDto dto = new CustomerDto(id, name, address, tel);
 
             try {
-                boolean isUpdated = customerDAO.updateCustomer(dto);
+                boolean isUpdated = customerDAO.update(dto);
                 if (isUpdated) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Updated Successfully").show();
                     initialize();

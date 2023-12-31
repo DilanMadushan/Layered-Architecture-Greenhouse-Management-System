@@ -1,9 +1,11 @@
 package lk.ijse.mrGreen.DAO;
 
 import lk.ijse.mrGreen.db.DbConnection;
+import lk.ijse.mrGreen.dto.OrderDto;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
     public String genarateOrderId() throws SQLException {
@@ -39,15 +41,15 @@ public class OrderDAOImpl implements OrderDAO {
         return "O001";
     }
 
-    public boolean saveOrder(String oId, String cusId, LocalDate date) throws SQLException {
-        System.out.println(oId+""+cusId+""+date);
+    public boolean save(OrderDto orderDto) throws SQLException {
+        //System.out.println(oId+""+cusId+""+date);
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "INSERT INTO orders VALUES(?,?,?)";
         PreparedStatement pstm = connection.prepareStatement(sql);
 
-        pstm.setString(1,oId);
-        pstm.setString(2,cusId);
-        pstm.setDate(3, Date.valueOf(date));
+        pstm.setString(1,orderDto.getOrderId());
+        pstm.setString(2,orderDto.getCusId());
+        pstm.setDate(3, Date.valueOf(orderDto.getDate()));
 
         try {
             return pstm.executeUpdate() > 0;
@@ -57,7 +59,22 @@ public class OrderDAOImpl implements OrderDAO {
         return false;
     }
 
-    public int getOrderCount() throws SQLException {
+    @Override
+    public boolean delete(String id) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean update(OrderDto dto) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public List<OrderDto> loadAll() throws SQLException {
+        return null;
+    }
+
+    public int getCount() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql ="SELECT COUNT(*) AS num_of_orders FROM orders";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -68,5 +85,15 @@ public class OrderDAOImpl implements OrderDAO {
 
         int count = resultSet.getInt("num_of_orders");
         return count;
+    }
+
+    @Override
+    public String getName(String id) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public OrderDto search(String cusId) throws SQLException {
+        return null;
     }
 }

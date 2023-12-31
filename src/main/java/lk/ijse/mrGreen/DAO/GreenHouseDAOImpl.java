@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GreenHouseDAOImpl implements GreenHouseDAO{
-    public boolean saveGreenhouse(GreenHouseDto dto) throws SQLException {
+    public boolean save(GreenHouseDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "INSERT INTO greenhouse(g_id,name,l_id,water_temp,water_ph) VALUES(?,?,?,?,?)";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -30,7 +30,7 @@ public class GreenHouseDAOImpl implements GreenHouseDAO{
         return false;
     }
 
-    public boolean deleteGreenhouse(String id) throws SQLException {
+    public boolean delete(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql ="DELETE FROM greenhouse WHERE g_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -45,7 +45,7 @@ public class GreenHouseDAOImpl implements GreenHouseDAO{
         return false;
     }
 
-    public boolean updateGreenhouse(GreenHouseDto dto) throws SQLException {
+    public boolean update(GreenHouseDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "UPDATE greenhouse SET name = ?, l_id = ?,water_temp = ?, water_ph = ? WHERE g_id = ? ";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -64,7 +64,7 @@ public class GreenHouseDAOImpl implements GreenHouseDAO{
         return false;
     }
 
-    public List<GreenHouseDto> getAllGreenhouse() throws SQLException {
+    public List<GreenHouseDto> loadAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "SELECT * FROM greenhouse";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -86,7 +86,7 @@ public class GreenHouseDAOImpl implements GreenHouseDAO{
         return dto;
     }
 
-    public int getGreenhouseCount() throws SQLException {
+    public int getCount() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql= "SELECT COUNT(*) AS num_green FROM greenhouse";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -97,5 +97,15 @@ public class GreenHouseDAOImpl implements GreenHouseDAO{
         int count = resultSet.getInt("num_green");
 
         return count;
+    }
+
+    @Override
+    public String getName(String id) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public GreenHouseDto search(String cusId) throws SQLException {
+        return null;
     }
 }

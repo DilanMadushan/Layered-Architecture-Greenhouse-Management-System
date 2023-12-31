@@ -10,18 +10,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface CustomerDAO {
-    public boolean saveCustomer(CustomerDto dto) throws SQLException;
-
-    public boolean deleteCustomer(String id) throws SQLException ;
-
-    public boolean updateCustomer(CustomerDto dto) throws SQLException ;
-
-    public List<CustomerDto> loadAllCustomer() throws SQLException ;
-
-    public int getCustomerCount() throws SQLException ;
-
-    public String getName(String id) throws SQLException ;
-
-    CustomerDto getCustomerDetils(String cusId) throws SQLException ;
+public interface CustomerDAO extends CrudDao <CustomerDto> {
+//    boolean saveCustomer(CustomerDto dto) throws SQLException;
+//
+//    boolean deleteCustomer(String id) throws SQLException ;
+//
+//    boolean updateCustomer(CustomerDto dto) throws SQLException ;
+//
+//    List<CustomerDto> loadAllCustomer() throws SQLException ;
+//
+//    int getCustomerCount() throws SQLException ;
+//
+//    String getName(String id) throws SQLException ;
+//
+//    CustomerDto getCustomerDetils(String cusId) throws SQLException ;
 }

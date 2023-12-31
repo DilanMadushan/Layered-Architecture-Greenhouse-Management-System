@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerDAOImpl implements CustomerDAO {
-    public boolean saveCustomer(CustomerDto dto) throws SQLException {
+    public boolean save(CustomerDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "INSERT INTO customer VALUES(?,?,?,?)";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -29,7 +29,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         return false;
     }
 
-    public boolean deleteCustomer(String id) throws SQLException {
+    public boolean delete(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "DELETE FROM customer WHERE cus_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -44,7 +44,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         return false;
     }
 
-    public boolean updateCustomer(CustomerDto dto) throws SQLException {
+    public boolean update(CustomerDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "UPDATE customer SET name = ?, address = ?, tel = ? WHERE cus_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -62,7 +62,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         return false;
     }
 
-    public List<CustomerDto> loadAllCustomer() throws SQLException {
+    public List<CustomerDto> loadAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "SELECT * FROM customer";
         PreparedStatement pstm=connection.prepareStatement(sql);
@@ -82,7 +82,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         return dto;
     }
 
-    public int getCustomerCount() throws SQLException {
+    public int getCount() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT COUNT(*) AS num_Customer FROM customer";
@@ -112,7 +112,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         return null;
     }
 
-    public CustomerDto getCustomerDetils(String cusId) throws SQLException {
+    public CustomerDto search(String cusId) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql ="SELECT * FROM customer WHERE cus_id = ?";
 

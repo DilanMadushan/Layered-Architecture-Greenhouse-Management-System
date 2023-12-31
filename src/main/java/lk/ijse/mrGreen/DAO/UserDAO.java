@@ -10,10 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface UserDAO {
-    UserDto checkUser(String name) throws SQLException ;
-
-    List<UserDto> loadAllUseres() throws SQLException ;
+public interface UserDAO extends  CrudDao <UserDto>{
+//    UserDto checkUser(String name) throws SQLException ;
+//
+//    List<UserDto> loadAllUseres() throws SQLException ;
 
     String getPassword(String name) throws SQLException ;
 

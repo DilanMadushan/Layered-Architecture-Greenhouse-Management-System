@@ -80,7 +80,7 @@ public class SupplierFormController {
         ObservableList<SupplierTm> obList= FXCollections.observableArrayList();
 
         try {
-            List<SupplierDto> dtoList = supplierDAO.loadAllSupplier();
+            List<SupplierDto> dtoList = supplierDAO.loadAll();
             for (SupplierDto dto: dtoList) {
                 obList.add(new SupplierTm(
                         dto.getSup_id(),
@@ -108,7 +108,7 @@ public class SupplierFormController {
         ObservableList<String> supList = FXCollections.observableArrayList();
 
         try {
-            List<UserDto> dtoList = userDAO.loadAllUseres();
+            List<UserDto> dtoList = userDAO.loadAll();
             for (UserDto dto : dtoList) {
                 supList.add(dto.getId());
             }
@@ -135,7 +135,7 @@ public class SupplierFormController {
             var dto = new SupplierDto(id, name, company, tel, userId);
 
             try {
-                boolean isSaved = supplierDAO.saveSupplier(dto);
+                boolean isSaved = supplierDAO.save(dto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Added Successfully").show();
@@ -194,7 +194,7 @@ public class SupplierFormController {
         String id = txtId.getText();
 
         try {
-            boolean isDelete = supplierDAO.deleteSupplier(id);
+            boolean isDelete = supplierDAO.delete(id);
             if (isDelete) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Delete Successfully").show();
                 initialize();
@@ -226,7 +226,7 @@ public class SupplierFormController {
             var dto = new SupplierDto(id, name, company, tel, userId);
 
             try {
-                boolean isUpdated = supplierDAO.updateSupplier(dto);
+                boolean isUpdated = supplierDAO.update(dto);
                 if (isUpdated) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Update Successfully").show();
                     initialize();

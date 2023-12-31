@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LettuceDAOImpl implements LettuceDAO {
-    public boolean saveLettuce(LettuceDto dto) throws SQLException {
+    public boolean save(LettuceDto dto) throws SQLException {
         Connection connection= DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO lettuce VALUES(?,?,?,?,?,?,?,?)";
@@ -33,7 +33,7 @@ public class LettuceDAOImpl implements LettuceDAO {
         return false;
     }
 
-    public List<LettuceDto> getAllLettuceDetails() throws SQLException {
+    public List<LettuceDto> loadAll() throws SQLException {
         Connection connection =DbConnection.getInstance().getConnection();
 
         String sql ="SELECT * FROM lettuce";
@@ -58,7 +58,7 @@ public class LettuceDAOImpl implements LettuceDAO {
         return dtoList;
     }
 
-    public boolean deleteLettuce(String id) throws SQLException {
+    public boolean delete(String id) throws SQLException {
 
         Connection connection= DbConnection.getInstance().getConnection();
 
@@ -73,7 +73,7 @@ public class LettuceDAOImpl implements LettuceDAO {
 
     }
 
-    public boolean updateLettuce(LettuceDto dto) throws SQLException {
+    public boolean update(LettuceDto dto) throws SQLException {
 
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -108,7 +108,12 @@ public class LettuceDAOImpl implements LettuceDAO {
         return lettCount;
     }
 
-    public LettuceDto getLettueDetails(String id) throws SQLException {
+    @Override
+    public String getName(String id) throws SQLException {
+        return null;
+    }
+
+    public LettuceDto search(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "SELECT * FROM lettuce WHERE l_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);

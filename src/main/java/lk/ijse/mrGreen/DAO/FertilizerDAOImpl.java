@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FertilizerDAOImpl implements FertilizerDAO{
-    public boolean SaveFertilizer(Fertilizerdto dto) throws SQLException {
+    public boolean save(Fertilizerdto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql ="INSERT INTO fertilizer VALUES(?,?,?,?,?,?,?)";
@@ -35,7 +35,7 @@ public class FertilizerDAOImpl implements FertilizerDAO{
 
     }
 
-    public boolean deleteFertilizer(String id) throws SQLException {
+    public boolean delete(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql ="DELETE FROM fertilizer WHERE f_id = ?";
@@ -46,7 +46,7 @@ public class FertilizerDAOImpl implements FertilizerDAO{
         return pstm.executeUpdate() > 0;
     }
 
-    public boolean updateFertilizer(Fertilizerdto dto) throws SQLException {
+    public boolean update(Fertilizerdto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql ="UPDATE fertilizer SET name = ?, company = ?, unit = ?, qty = ?," +
@@ -65,7 +65,7 @@ public class FertilizerDAOImpl implements FertilizerDAO{
         return pstm.executeUpdate() >0;
     }
 
-    public List<Fertilizerdto> getAllFertilizer() throws SQLException {
+    public List<Fertilizerdto> loadAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM fertilizer";
@@ -87,5 +87,20 @@ public class FertilizerDAOImpl implements FertilizerDAO{
         }
         return dto;
 
+    }
+
+    @Override
+    public int getCount() throws SQLException {
+        return 0;
+    }
+
+    @Override
+    public String getName(String id) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public Fertilizerdto search(String cusId) throws SQLException {
+        return null;
     }
 }

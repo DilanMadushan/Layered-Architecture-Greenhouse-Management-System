@@ -94,7 +94,7 @@ public class FertilizerFormController {
         ObservableList<FertilizerTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<Fertilizerdto> dtoList = fertilizerDAO.getAllFertilizer();
+            List<Fertilizerdto> dtoList = fertilizerDAO.loadAll();
 
             for (Fertilizerdto dto: dtoList) {
                 obList.add(new FertilizerTm(
@@ -130,7 +130,7 @@ public class FertilizerFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<LettuceDto> lettuceDto= lettuceDAO.getAllLettuceDetails();
+            List<LettuceDto> lettuceDto= lettuceDAO.loadAll();
 
             for (LettuceDto dto: lettuceDto) {
                 obList.add(dto.getId());
@@ -146,7 +146,7 @@ public class FertilizerFormController {
 
 
         try {
-            List<SupplierDto> supDto = supplierDAO.loadAllSupplier();
+            List<SupplierDto> supDto = supplierDAO.loadAll();
             for (SupplierDto dto: supDto) {
                 obList.add(dto.getSup_id());
             }
@@ -178,7 +178,7 @@ public class FertilizerFormController {
             var dto = new Fertilizerdto(id, name, company, unit, qty, supId, l_id);
 
             try {
-                boolean isSaved = fertilizerDAO.SaveFertilizer(dto);
+                boolean isSaved = fertilizerDAO.save(dto);
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Added Successfully").show();
                     initialize();
@@ -261,7 +261,7 @@ public class FertilizerFormController {
         String id = txtId.getText();
 
         try {
-            boolean isDelete = fertilizerDAO.deleteFertilizer(id);
+            boolean isDelete = fertilizerDAO.delete(id);
             if (isDelete) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Delete Successfully").show();
                 initialize();
@@ -293,7 +293,7 @@ public class FertilizerFormController {
             var dto = new Fertilizerdto(id, name, company, unit, qty, supId, l_id);
 
             try {
-                boolean isUpdated = fertilizerDAO.updateFertilizer(dto);
+                boolean isUpdated = fertilizerDAO.update(dto);
                 if (isUpdated) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Updated Successfully").show();
                     initialize();

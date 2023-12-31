@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierDAOImpl implements SupplierDAO{
-    public List<SupplierDto> loadAllSupplier() throws SQLException {
+    public List<SupplierDto> loadAll() throws SQLException {
 
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -36,7 +36,7 @@ public class SupplierDAOImpl implements SupplierDAO{
         return supList;
     }
 
-    public boolean saveSupplier(SupplierDto dto) throws SQLException {
+    public boolean save(SupplierDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "INSERT INTO supplier VALUES(?,?,?,?,?)";
 
@@ -56,7 +56,7 @@ public class SupplierDAOImpl implements SupplierDAO{
         return false;
     }
 
-    public boolean deleteSupplier(String id) throws SQLException {
+    public boolean delete(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "DELETE FROM supplier WHERE sup_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -66,7 +66,7 @@ public class SupplierDAOImpl implements SupplierDAO{
         return pstm.executeUpdate() > 0;
     }
 
-    public boolean updateSupplier(SupplierDto dto) throws SQLException {
+    public boolean update(SupplierDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "UPDATE supplier SET name = ?, company = ?, tel = ?, user_id = ? WHERE sup_id =?";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -80,7 +80,7 @@ public class SupplierDAOImpl implements SupplierDAO{
         return pstm.executeUpdate() > 0;
     }
 
-    public int getSupplierCount() throws SQLException {
+    public int getCount() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql ="SELECT COUNT(*)As sup_count from supplier";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -93,7 +93,12 @@ public class SupplierDAOImpl implements SupplierDAO{
         return count;
     }
 
-    public SupplierDto getSupplierDetails(String suppId) throws SQLException {
+    @Override
+    public String getName(String id) throws SQLException {
+        return null;
+    }
+
+    public SupplierDto search(String suppId) throws SQLException {
         Connection connection =DbConnection.getInstance().getConnection();
         String sql = "SELECT * FROM supplier WHERE sup_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);

@@ -91,7 +91,7 @@ public class EmployeeFormController {
         ObservableList<EmployeeTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> dtoList = employeeDAO.getAllEmployee();
+            List<EmployeeDto> dtoList = employeeDAO.loadAll();
 
             for (EmployeeDto dto: dtoList) {
                 obList.add(new EmployeeTm(
@@ -136,7 +136,7 @@ public class EmployeeFormController {
             var dto = new EmployeeDto(id, name, age, address, job, salary);
 
             try {
-                boolean isSaved = employeeDAO.saveEmployee(dto);
+                boolean isSaved = employeeDAO.save(dto);
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Added Succesfully").show();
                     initialize();
@@ -200,7 +200,7 @@ public class EmployeeFormController {
         String id = txtId.getText();
 
         try {
-            boolean isDeleted = employeeDAO.deleteEmployee(id);
+            boolean isDeleted = employeeDAO.delete(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Delete Successfully").show();
                 initialize();
@@ -231,7 +231,7 @@ public class EmployeeFormController {
             var dto = new EmployeeDto(id, name, age, address, job, salary);
 
             try {
-                boolean isSaved = employeeDAO.updateEmployee(dto);
+                boolean isSaved = employeeDAO.update(dto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Updated Successfully").show();
