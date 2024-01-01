@@ -10,8 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import lk.ijse.mrGreen.DAO.UserDAO;
-import lk.ijse.mrGreen.DAO.UserDAOImpl;
+import lk.ijse.mrGreen.DAO.Custom.UserDAO;
+import lk.ijse.mrGreen.DAO.Custom.Impl.UserDAOImpl;
 import lk.ijse.mrGreen.dto.UserDto;
 
 

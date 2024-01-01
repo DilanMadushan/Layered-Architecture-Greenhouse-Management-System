@@ -15,8 +15,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.mrGreen.DAO.EmployeeDAOImpl;
-import lk.ijse.mrGreen.DAO.EmployeeDAO;
+import lk.ijse.mrGreen.DAO.Custom.Impl.EmployeeDAOImpl;
+import lk.ijse.mrGreen.DAO.Custom.EmployeeDAO;
 import lk.ijse.mrGreen.dto.EmployeeDto;
 import lk.ijse.mrGreen.dto.tm.EmployeeTm;
 

@@ -1,5 +1,7 @@
-package lk.ijse.mrGreen.DAO;
+package lk.ijse.mrGreen.DAO.Custom.Impl;
 
+import lk.ijse.mrGreen.DAO.Custom.UserDAO;
+import lk.ijse.mrGreen.DAO.SQLUtil;
 import lk.ijse.mrGreen.db.DbConnection;
 import lk.ijse.mrGreen.dto.UserDto;
 
@@ -10,15 +12,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAOImpl implements UserDAO  {
+public class UserDAOImpl implements UserDAO {
+
+    SQLUtil sqlUtil = new SQLUtil();
     public UserDto search(String name) throws SQLException {
-        Connection connection= DbConnection.getInstance().getConnection();
+//        Connection connection= DbConnection.getInstance().getConnection();
+//
+//        String sql ="SELECT * FROM user WHERE name = ?";
+//        PreparedStatement pstm = connection.prepareStatement(sql);
+//        pstm.setString(1,name);
 
-        String sql ="SELECT * FROM user WHERE name = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,name);
-
-        ResultSet resultSet =pstm.executeQuery();
+        ResultSet resultSet = sqlUtil.execute("SELECT * FROM user WHERE name = ?",name);
 
         UserDto dto =null;
 
@@ -50,13 +54,13 @@ public class UserDAOImpl implements UserDAO  {
     }
 
     public List<UserDto> loadAll() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "SELECT * FROM user";
-        PreparedStatement pstm = connection.prepareStatement(sql);
+//        Connection connection = DbConnection.getInstance().getConnection();
+//        String sql = "SELECT * FROM user";
+//        PreparedStatement pstm = connection.prepareStatement(sql);
 
         ArrayList<UserDto> dtoList= new ArrayList<>();
 
-        ResultSet resultSet=pstm.executeQuery();
+        ResultSet resultSet=sqlUtil.execute("SELECT * FROM user");
 
         while (resultSet.next()){
             dtoList.add(new UserDto(
@@ -80,42 +84,33 @@ public class UserDAOImpl implements UserDAO  {
     }
 
     public String getPassword(String name) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "SELECT password FROM user WHERE name = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
+//        Connection connection = DbConnection.getInstance().getConnection();
+//        String sql = "SELECT password FROM user WHERE name = ?";
+//        PreparedStatement pstm = connection.prepareStatement(sql);
+//
+//        pstm.setString(1,name);
 
-        pstm.setString(1,name);
+        ResultSet resultSet = sqlUtil.execute("SELECT password FROM user WHERE name = ?",name);
 
-        try{
-            ResultSet resultSet = pstm.executeQuery();
+        resultSet.next();
+        return resultSet.getString("password");
 
-            resultSet.next();
-            return resultSet.getString("password");
-
-        }catch (Exception e){
-
-        }
-
-        return null;
     }
 
     public String getEmail(String name) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "SELECT email FROM user WHERE name = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
+//        Connection connection = DbConnection.getInstance().getConnection();
+//        String sql = "SELECT email FROM user WHERE name = ?";
+//        PreparedStatement pstm = connection.prepareStatement(sql);
+//
+//        pstm.setString(1,name);
 
-        pstm.setString(1,name);
 
-        try{
-            ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = sqlUtil.execute("SELECT email FROM user WHERE name = ?",name
+        );
 
-            resultSet.next();
-            return resultSet.getString("email");
+        resultSet.next();
+        return resultSet.getString("email");
 
-        }catch (Exception e){
 
-        }
-
-        return null;
     }
 }

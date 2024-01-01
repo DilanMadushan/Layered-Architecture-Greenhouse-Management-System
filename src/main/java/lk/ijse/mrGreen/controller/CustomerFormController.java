@@ -15,8 +15,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.mrGreen.DAO.CustomerDAO;
-import lk.ijse.mrGreen.DAO.CustomerDAOImpl;
+import lk.ijse.mrGreen.DAO.Custom.CustomerDAO;
+import lk.ijse.mrGreen.DAO.Custom.Impl.CustomerDAOImpl;
 import lk.ijse.mrGreen.dto.CustomerDto;
 import lk.ijse.mrGreen.dto.tm.CustomerTm;
 
@@ -115,7 +115,7 @@ public class CustomerFormController {
                     initialize();
                     clearFields();
                 } else {
-                    new Alert(Alert.AlertType.WARNING, "Addes Failed").show();
+                    new Alert(Alert.AlertType.ERROR,"Customer already exist").show();
                 }
 
             } catch (SQLException e) {
