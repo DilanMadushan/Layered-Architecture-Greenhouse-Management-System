@@ -19,6 +19,7 @@ import lk.ijse.mrGreen.DAO.Custom.LettuceDAO;
 import lk.ijse.mrGreen.DAO.Custom.Impl.LettuceDAOImpl;
 import lk.ijse.mrGreen.DAO.Custom.SupplierDAO;
 import lk.ijse.mrGreen.DAO.Custom.Impl.SupplierDAOImpl;
+import lk.ijse.mrGreen.DAO.DAOFactory;
 import lk.ijse.mrGreen.dto.LettuceDto;
 import lk.ijse.mrGreen.dto.SupplierDto;
 import lk.ijse.mrGreen.dto.tm.LettuceTm;
@@ -82,8 +83,8 @@ public class LettuceFormController {
     @FXML
     private TableColumn<?, ?> colUnit;
 
-    private SupplierDAO supplierDAO = new SupplierDAOImpl();
-    private LettuceDAO lettuceDAO = new LettuceDAOImpl();
+    private SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.SUPPLIER);
+    private LettuceDAO lettuceDAO = (LettuceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.LETTUCE);
 
 
     public void initialize(){
@@ -173,7 +174,7 @@ public class LettuceFormController {
                     initialize();
                     clearFields();
                 } else {
-                    new Alert(Alert.AlertType.WARNING, "Save Failed").show();
+                    new Alert(Alert.AlertType.ERROR, "Lettuce already exist").show();
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);

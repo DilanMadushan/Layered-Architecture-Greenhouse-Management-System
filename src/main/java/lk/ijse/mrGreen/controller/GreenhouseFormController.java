@@ -20,6 +20,7 @@ import lk.ijse.mrGreen.DAO.Custom.GreenHouseDAO;
 import lk.ijse.mrGreen.DAO.Custom.Impl.GreenHouseDAOImpl;
 import lk.ijse.mrGreen.DAO.Custom.LettuceDAO;
 import lk.ijse.mrGreen.DAO.Custom.Impl.LettuceDAOImpl;
+import lk.ijse.mrGreen.DAO.DAOFactory;
 import lk.ijse.mrGreen.dto.GreenHouseDto;
 import lk.ijse.mrGreen.dto.LettuceDto;
 import lk.ijse.mrGreen.dto.tm.GreenHouseTm;
@@ -67,8 +68,8 @@ public class GreenhouseFormController {
     @FXML
     private JFXTextField txtTemp;
 
-    private GreenHouseDAO greenHouseDAO = new GreenHouseDAOImpl();
-    private LettuceDAO lettuceDAO = new LettuceDAOImpl();
+    private GreenHouseDAO greenHouseDAO = (GreenHouseDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.GREENHOUSE);
+    private LettuceDAO lettuceDAO = (LettuceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.LETTUCE);
 
     public void initialize(){
         loadAllLettuceID();
@@ -143,7 +144,7 @@ public class GreenhouseFormController {
                     initialize();
                     clearFeilds();
                 } else {
-                    new Alert(Alert.AlertType.WARNING, "Added Failed").show();
+                    new Alert(Alert.AlertType.ERROR, "Greenhouse already exist").show();
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);

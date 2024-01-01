@@ -1,17 +1,9 @@
 package lk.ijse.mrGreen.DAO.Custom;
 
-import lk.ijse.mrGreen.DAO.CrudDao;
-import lk.ijse.mrGreen.db.DbConnection;
+import lk.ijse.mrGreen.DAO.CrudDAO;
 import lk.ijse.mrGreen.dto.SupplierDto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-public interface SupplierDAO extends CrudDao<SupplierDto> {
+public interface SupplierDAO extends CrudDAO<SupplierDto> {
 //    public List<SupplierDto> loadAllSupplier() throws SQLException ;
 //
 //    public boolean saveSupplier(SupplierDto dto) throws SQLException ;

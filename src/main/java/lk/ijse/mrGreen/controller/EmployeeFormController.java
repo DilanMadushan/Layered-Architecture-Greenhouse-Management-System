@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.mrGreen.DAO.Custom.Impl.EmployeeDAOImpl;
 import lk.ijse.mrGreen.DAO.Custom.EmployeeDAO;
+import lk.ijse.mrGreen.DAO.DAOFactory;
 import lk.ijse.mrGreen.dto.EmployeeDto;
 import lk.ijse.mrGreen.dto.tm.EmployeeTm;
 
@@ -71,7 +72,7 @@ public class EmployeeFormController {
     @FXML
     private JFXTextField txtSalary;
 
-    private EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+    private EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.EMPLOYEE);
 
     public void initialize(){
         setCellValues();
@@ -142,7 +143,7 @@ public class EmployeeFormController {
                     initialize();
                     clearFields();
                 } else {
-                    new Alert(Alert.AlertType.WARNING, "Added Failed").show();
+                    new Alert(Alert.AlertType.ERROR, "Employee already exist").show();
                 }
 
             } catch (SQLException e) {

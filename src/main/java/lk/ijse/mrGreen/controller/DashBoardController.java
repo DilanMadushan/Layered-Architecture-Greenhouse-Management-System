@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.mrGreen.DAO.Custom.*;
 import lk.ijse.mrGreen.DAO.Custom.Impl.*;
+import lk.ijse.mrGreen.DAO.DAOFactory;
 
 
 import java.io.IOException;
@@ -56,13 +57,12 @@ public class DashBoardController {
     private int month;
     private int datee;
 
-    private LettuceDAO lettuceDAO = new LettuceDAOImpl();
-    private EmployeeDAO employeeDAO = new EmployeeDAOImpl();
-    private CustomerDAO customerDAO = new CustomerDAOImpl();
-    private GreenHouseDAO greenHouseDAO = new GreenHouseDAOImpl();
-    private OrderDAO orderDAO = new OrderDAOImpl();
-
-   private SupplierDAO supplierDAO = new SupplierDAOImpl();
+    private LettuceDAO lettuceDAO = (LettuceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.LETTUCE);
+    private EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.EMPLOYEE);
+    private CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.CUSTOMER);
+    private GreenHouseDAO greenHouseDAO = (GreenHouseDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.GREENHOUSE);
+    private OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.ORDER);
+    private SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.SUPPLIER);
 
     @FXML
     private AnchorPane root1;

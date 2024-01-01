@@ -24,6 +24,7 @@ import lk.ijse.mrGreen.DAO.Custom.Impl.OrderDetailDAOImpl;
 import lk.ijse.mrGreen.DAO.Custom.LettuceDAO;
 import lk.ijse.mrGreen.DAO.Custom.OrderDAO;
 import lk.ijse.mrGreen.DAO.Custom.OrderDetailDAO;
+import lk.ijse.mrGreen.DAO.DAOFactory;
 import lk.ijse.mrGreen.db.DbConnection;
 import lk.ijse.mrGreen.dto.*;
 import lk.ijse.mrGreen.dto.tm.CartTm;
@@ -96,14 +97,15 @@ public class OrderFormController {
     Integer index;
 
 
-    private OrderDAO orderDAO = new OrderDAOImpl();
+    private OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.ORDER);
 
-    private CustomerDAO customerDAO = new CustomerDAOImpl();
+    private CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.CUSTOMER);
 
-    private LettuceDAO lettuceDAO = new LettuceDAOImpl();
+    private LettuceDAO lettuceDAO = (LettuceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.LETTUCE);
+
+    private OrderDetailDAO orderDetailDAO = (OrderDetailDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.ORDERDETAILS);
+
     private ObservableList<CartTm> obList =FXCollections.observableArrayList();
-
-    private OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
 
     public void initialize(){
         genarateOrderId();

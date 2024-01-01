@@ -22,6 +22,7 @@ import lk.ijse.mrGreen.DAO.Custom.Impl.LettuceDAOImpl;
 import lk.ijse.mrGreen.DAO.Custom.Impl.SupplierDAOImpl;
 import lk.ijse.mrGreen.DAO.Custom.LettuceDAO;
 import lk.ijse.mrGreen.DAO.Custom.SupplierDAO;
+import lk.ijse.mrGreen.DAO.DAOFactory;
 import lk.ijse.mrGreen.dto.Fertilizerdto;
 import lk.ijse.mrGreen.dto.LettuceDto;
 import lk.ijse.mrGreen.dto.SupplierDto;
@@ -83,9 +84,9 @@ public class FertilizerFormController {
     @FXML
     private JFXTextField txtUnit;
 
-    private SupplierDAO supplierDAO = new SupplierDAOImpl();
-    private LettuceDAO lettuceDAO = new LettuceDAOImpl();
-    private FertilizerDAO fertilizerDAO = new FertilizerDAOImpl();
+    private SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.SUPPLIER);
+    private LettuceDAO lettuceDAO = (LettuceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.LETTUCE);
+    private FertilizerDAO fertilizerDAO = (FertilizerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.FERTILIZER);
 
     public void initialize(){
         loadAllSupplier();
@@ -190,7 +191,7 @@ public class FertilizerFormController {
                     clerFelads();
 
                 } else {
-                    new Alert(Alert.AlertType.WARNING, "Added Failed").show();
+                    new Alert(Alert.AlertType.ERROR, "Fertilizer already exist").show();
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);

@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.mrGreen.DAO.Custom.CustomerDAO;
 import lk.ijse.mrGreen.DAO.Custom.Impl.CustomerDAOImpl;
+import lk.ijse.mrGreen.DAO.DAOFactory;
 import lk.ijse.mrGreen.dto.CustomerDto;
 import lk.ijse.mrGreen.dto.tm.CustomerTm;
 
@@ -57,7 +58,7 @@ public class CustomerFormController {
     @FXML
     private JFXTextField txtPhone;
 
-    private CustomerDAO customerDAO = new CustomerDAOImpl();
+    private CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.CUSTOMER);
 
 
     public void initialize(){

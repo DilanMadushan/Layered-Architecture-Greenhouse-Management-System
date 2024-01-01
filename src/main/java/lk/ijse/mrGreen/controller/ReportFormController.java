@@ -18,6 +18,7 @@ import lk.ijse.mrGreen.DAO.Custom.Impl.CustomerDAOImpl;
 import lk.ijse.mrGreen.DAO.Custom.Impl.EmployeeDAOImpl;
 import lk.ijse.mrGreen.DAO.Custom.Impl.SupplierDAOImpl;
 import lk.ijse.mrGreen.DAO.Custom.SupplierDAO;
+import lk.ijse.mrGreen.DAO.DAOFactory;
 import lk.ijse.mrGreen.dto.CustomerDto;
 import lk.ijse.mrGreen.dto.EmployeeDto;
 import lk.ijse.mrGreen.dto.SupplierDto;
@@ -44,9 +45,9 @@ public class ReportFormController {
     @FXML
     private AnchorPane Anchor;
 
-    private CustomerDAO customerDAO = new CustomerDAOImpl();
-    private EmployeeDAO employeeDAO = new EmployeeDAOImpl();
-    private SupplierDAO supplierDAO = new SupplierDAOImpl();
+    private CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.CUSTOMER);
+    private EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.EMPLOYEE);
+    private SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.SUPPLIER);
 
     public void initialize(){
         loadAllCustomer();

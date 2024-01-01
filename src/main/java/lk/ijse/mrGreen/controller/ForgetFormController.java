@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lk.ijse.mrGreen.DAO.Custom.UserDAO;
 import lk.ijse.mrGreen.DAO.Custom.Impl.UserDAOImpl;
+import lk.ijse.mrGreen.DAO.DAOFactory;
 import lk.ijse.mrGreen.dto.UserDto;
 
 
@@ -27,7 +28,7 @@ public class ForgetFormController {
     @FXML
     private JFXTextField txtUserName;
 
-    private UserDAO userDAO = new UserDAOImpl();
+    private UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.USER);
 
     @FXML
     void checkOnAction(ActionEvent event) {

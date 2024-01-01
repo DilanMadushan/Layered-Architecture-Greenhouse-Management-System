@@ -20,6 +20,7 @@ import lk.ijse.mrGreen.DAO.Custom.SupplierDAO;
 import lk.ijse.mrGreen.DAO.Custom.Impl.SupplierDAOImpl;
 import lk.ijse.mrGreen.DAO.Custom.UserDAO;
 import lk.ijse.mrGreen.DAO.Custom.Impl.UserDAOImpl;
+import lk.ijse.mrGreen.DAO.DAOFactory;
 import lk.ijse.mrGreen.dto.SupplierDto;
 import lk.ijse.mrGreen.dto.UserDto;
 import lk.ijse.mrGreen.dto.tm.SupplierTm;
@@ -67,8 +68,8 @@ public class SupplierFormController {
     @FXML
     private JFXTextField txtPhone;
 
-    private UserDAO userDAO = new UserDAOImpl();
-    private SupplierDAO supplierDAO = new SupplierDAOImpl();
+    private UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.USER);
+    private SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.SUPPLIER);
 
     public void initialize(){
         loadAllUseres();
@@ -142,7 +143,7 @@ public class SupplierFormController {
                     initialize();
                     clearFealds();
                 } else {
-                    new Alert(Alert.AlertType.WARNING, "Added Failed").show();
+                    new Alert(Alert.AlertType.ERROR, "Supplier already exist").show();
                 }
 
             } catch (SQLException e) {

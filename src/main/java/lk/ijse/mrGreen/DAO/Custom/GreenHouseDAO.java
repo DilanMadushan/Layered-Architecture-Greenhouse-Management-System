@@ -1,17 +1,9 @@
 package lk.ijse.mrGreen.DAO.Custom;
 
-import lk.ijse.mrGreen.DAO.CrudDao;
-import lk.ijse.mrGreen.db.DbConnection;
+import lk.ijse.mrGreen.DAO.CrudDAO;
 import lk.ijse.mrGreen.dto.GreenHouseDto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-public interface GreenHouseDAO extends CrudDao<GreenHouseDto> {
+public interface GreenHouseDAO extends CrudDAO<GreenHouseDto> {
 //    boolean saveGreenhouse(GreenHouseDto dto) throws SQLException ;
 //
 //    boolean deleteGreenhouse(String id) throws SQLException ;

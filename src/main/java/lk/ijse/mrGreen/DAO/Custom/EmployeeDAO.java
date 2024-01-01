@@ -1,12 +1,9 @@
 package lk.ijse.mrGreen.DAO.Custom;
 
-import lk.ijse.mrGreen.DAO.CrudDao;
+import lk.ijse.mrGreen.DAO.CrudDAO;
 import lk.ijse.mrGreen.dto.EmployeeDto;
 
-import java.sql.SQLException;
-import java.util.List;
-
-public interface EmployeeDAO extends CrudDao<EmployeeDto> {
+public interface EmployeeDAO extends CrudDAO<EmployeeDto> {
 //    boolean saveEmployee(EmployeeDto dto) throws SQLException ;
 //
 //    boolean deleteEmployee(String id) throws SQLException;
