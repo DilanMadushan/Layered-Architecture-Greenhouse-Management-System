@@ -16,11 +16,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.mrGreen.DAO.Custom.SupplierDAO;
-import lk.ijse.mrGreen.DAO.Custom.Impl.SupplierDAOImpl;
-import lk.ijse.mrGreen.DAO.Custom.UserDAO;
-import lk.ijse.mrGreen.DAO.Custom.Impl.UserDAOImpl;
-import lk.ijse.mrGreen.DAO.DAOFactory;
+import lk.ijse.mrGreen.BO.BOFactory;
+import lk.ijse.mrGreen.BO.Custom.Impl.SupplierBOImpl;
+import lk.ijse.mrGreen.BO.Custom.Impl.UserBOImpl;
 import lk.ijse.mrGreen.dto.SupplierDto;
 import lk.ijse.mrGreen.dto.UserDto;
 import lk.ijse.mrGreen.dto.tm.SupplierTm;
@@ -68,8 +66,8 @@ public class SupplierFormController {
     @FXML
     private JFXTextField txtPhone;
 
-    private UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.USER);
-    private SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.SUPPLIER);
+    private UserBOImpl userBO = (UserBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.USER);
+    private SupplierBOImpl supplierBO = (SupplierBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.SUPPLIER);
 
     public void initialize(){
         loadAllUseres();
@@ -81,7 +79,7 @@ public class SupplierFormController {
         ObservableList<SupplierTm> obList= FXCollections.observableArrayList();
 
         try {
-            List<SupplierDto> dtoList = supplierDAO.loadAll();
+            List<SupplierDto> dtoList = supplierBO.loadAllSupplier();
             for (SupplierDto dto: dtoList) {
                 obList.add(new SupplierTm(
                         dto.getSup_id(),
@@ -109,7 +107,7 @@ public class SupplierFormController {
         ObservableList<String> supList = FXCollections.observableArrayList();
 
         try {
-            List<UserDto> dtoList = userDAO.loadAll();
+            List<UserDto> dtoList = userBO.loadAllUser();
             for (UserDto dto : dtoList) {
                 supList.add(dto.getId());
             }
@@ -136,7 +134,7 @@ public class SupplierFormController {
             var dto = new SupplierDto(id, name, company, tel, userId);
 
             try {
-                boolean isSaved = supplierDAO.save(dto);
+                boolean isSaved = supplierBO.saveSupplier(dto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Added Successfully").show();
@@ -195,7 +193,7 @@ public class SupplierFormController {
         String id = txtId.getText();
 
         try {
-            boolean isDelete = supplierDAO.delete(id);
+            boolean isDelete = supplierBO.deleteSupplier(id);
             if (isDelete) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Delete Successfully").show();
                 initialize();
@@ -227,7 +225,7 @@ public class SupplierFormController {
             var dto = new SupplierDto(id, name, company, tel, userId);
 
             try {
-                boolean isUpdated = supplierDAO.update(dto);
+                boolean isUpdated = supplierBO.updateSupplier(dto);
                 if (isUpdated) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Update Successfully").show();
                     initialize();

@@ -2,6 +2,7 @@ package lk.ijse.mrGreen.DAO.Custom.Impl;
 
 import lk.ijse.mrGreen.DAO.Custom.OrderDetailDAO;
 import lk.ijse.mrGreen.DAO.SQLUtil;
+import lk.ijse.mrGreen.Entity.OrderDetails;
 import lk.ijse.mrGreen.db.DbConnection;
 import lk.ijse.mrGreen.dto.OrderDetailsDto;
 import lk.ijse.mrGreen.dto.tm.CartTm;
@@ -14,9 +15,9 @@ import java.util.List;
 public class OrderDetailDAOImpl implements OrderDetailDAO {
 
     SQLUtil sqlUtil = new SQLUtil();
-    public boolean save(OrderDetailsDto orderDetailsDto) throws SQLException {
+    public boolean save(OrderDetails orderDetailsDto) throws SQLException {
         for (CartTm tm: orderDetailsDto.getCartTmList()) {
-            if(!saveOrderDetail(orderDetailsDto.getOrderId(),tm)){
+            if(!saveOrderDetails(orderDetailsDto.getOrderId(),tm)){
                 return false;
             }
         }
@@ -29,12 +30,12 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     }
 
     @Override
-    public boolean update(OrderDetailsDto dto) throws SQLException {
+    public boolean update(OrderDetails dto) throws SQLException {
         return false;
     }
 
     @Override
-    public List<OrderDetailsDto> loadAll() throws SQLException {
+    public List<OrderDetails> loadAll() throws SQLException {
         return null;
     }
 
@@ -49,23 +50,11 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     }
 
     @Override
-    public OrderDetailsDto search(String cusId) throws SQLException {
+    public OrderDetails search(String cusId) throws SQLException {
         return null;
     }
 
-    public boolean saveOrderDetail(String orderId, CartTm tm) throws SQLException {
-//        Connection connection = DbConnection.getInstance().getConnection();
-//
-//        String sql = "INSERT INTO order_details VALUES (?,?,?,?,?)";
-//        PreparedStatement pstm = connection.prepareStatement(sql);
-//
-//        pstm.setString(1,orderId);
-//        pstm.setString(2,tm.getId());
-//        pstm.setDouble(3,tm.getQty());
-//        pstm.setDouble(4,tm.getUnit());
-//        pstm.setDouble(5,tm.getQty()*tm.getUnit());
-//
-//        return pstm.executeUpdate() >0;
+    public boolean saveOrderDetails(String orderId, CartTm tm) throws SQLException {
 
         return sqlUtil.execute("INSERT INTO order_details VALUES (?,?,?,?,?)",
                 orderId,tm.getId(),tm.getQty(),tm.getUnit(),tm.getQty()*tm.getUnit());

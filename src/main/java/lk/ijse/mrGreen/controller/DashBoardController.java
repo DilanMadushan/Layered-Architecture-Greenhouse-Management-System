@@ -16,9 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import lk.ijse.mrGreen.DAO.Custom.*;
-import lk.ijse.mrGreen.DAO.Custom.Impl.*;
-import lk.ijse.mrGreen.DAO.DAOFactory;
+import lk.ijse.mrGreen.BO.BOFactory;
+import lk.ijse.mrGreen.BO.Custom.Impl.*;
 
 
 import java.io.IOException;
@@ -57,12 +56,12 @@ public class DashBoardController {
     private int month;
     private int datee;
 
-    private LettuceDAO lettuceDAO = (LettuceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.LETTUCE);
-    private EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.EMPLOYEE);
-    private CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.CUSTOMER);
-    private GreenHouseDAO greenHouseDAO = (GreenHouseDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.GREENHOUSE);
-    private OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.ORDER);
-    private SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.SUPPLIER);
+    private LettuceBOImpl lettuceBO = (LettuceBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.LETTUCE);
+    private EmployeeBOImpl employeeBO = (EmployeeBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.EMPLOYEE);
+    private CustomerBOImpl customerBO = (CustomerBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.CUSTOMER);
+    private GreenhouseBOImpl greenhouseBO = (GreenhouseBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.GREENHOUSE);
+    private OrderBOImpl orderBO = (OrderBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.ORDER);
+    private SupplierBOImpl supplierBO = (SupplierBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.SUPPLIER);
 
     @FXML
     private AnchorPane root1;
@@ -79,7 +78,7 @@ public class DashBoardController {
 
     private void setSupplierCount() {
         try {
-            String suppCount = Integer.toString(supplierDAO.getCount());
+            String suppCount = Integer.toString(supplierBO.getSupplierCount());
             txtSupplier.setText(suppCount);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -88,7 +87,7 @@ public class DashBoardController {
 
     private void setOrderCount() {
         try {
-            String count = Integer.toString(orderDAO.getCount());
+            String count = Integer.toString(orderBO.getOrderCount());
             txtOrders.setText(count);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -98,7 +97,7 @@ public class DashBoardController {
     private void setGreenhouseCount() {
 
         try {
-            String Count = Integer.toString(greenHouseDAO.getCount());
+            String Count = Integer.toString(greenhouseBO.getGreenhouseCount());
             txtGreenhouse.setText(Count);
 
         } catch (SQLException e) {
@@ -109,7 +108,7 @@ public class DashBoardController {
 
     private void setCustomerCount() {
         try {
-            String count = Integer.toString(customerDAO.getCount());
+            String count = Integer.toString(customerBO.getCustomerCount());
             txtCustomer.setText(count);
 
         } catch (SQLException e) {
@@ -119,7 +118,7 @@ public class DashBoardController {
 
     private void setEmployeeCount() {
         try {
-            String count = Integer.toString(employeeDAO.getCount());
+            String count = Integer.toString(employeeBO.getEmployeeCount());
             txtEmployee.setText(count);
 
         } catch (SQLException e) {
@@ -130,7 +129,7 @@ public class DashBoardController {
     private void setLettuceCount() {
 
         try {
-            String count = Integer.toString(lettuceDAO.getCount());
+            String count = Integer.toString(lettuceBO.getLettuceCount());
             txtLettuceCount.setText(count);
 
         } catch (SQLException e) {

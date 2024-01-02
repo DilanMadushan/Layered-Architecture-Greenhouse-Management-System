@@ -2,6 +2,7 @@ package lk.ijse.mrGreen.DAO.Custom.Impl;
 
 import lk.ijse.mrGreen.DAO.Custom.UserDAO;
 import lk.ijse.mrGreen.DAO.SQLUtil;
+import lk.ijse.mrGreen.Entity.User;
 import lk.ijse.mrGreen.db.DbConnection;
 import lk.ijse.mrGreen.dto.UserDto;
 
@@ -15,16 +16,11 @@ import java.util.List;
 public class UserDAOImpl implements UserDAO {
 
     SQLUtil sqlUtil = new SQLUtil();
-    public UserDto search(String name) throws SQLException {
-//        Connection connection= DbConnection.getInstance().getConnection();
-//
-//        String sql ="SELECT * FROM user WHERE name = ?";
-//        PreparedStatement pstm = connection.prepareStatement(sql);
-//        pstm.setString(1,name);
+    public User search(String name) throws SQLException {
 
         ResultSet resultSet = sqlUtil.execute("SELECT * FROM user WHERE name = ?",name);
 
-        UserDto dto =null;
+        User dto =null;
 
         if(resultSet.next()){
             String user_id = resultSet.getString(1);
@@ -32,14 +28,14 @@ public class UserDAOImpl implements UserDAO {
             String password = resultSet.getString(3);
             String job_role = resultSet.getString(4);
 
-            dto=new UserDto(user_id,user_name,password,job_role);
+            dto=new User(user_id,user_name,password,job_role);
         }
 
         return dto;
     }
 
     @Override
-    public boolean save(UserDto dto) throws SQLException {
+    public boolean save(User dto) throws SQLException {
         return false;
     }
 
@@ -49,21 +45,18 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean update(UserDto dto) throws SQLException {
+    public boolean update(User dto) throws SQLException {
         return false;
     }
 
-    public List<UserDto> loadAll() throws SQLException {
-//        Connection connection = DbConnection.getInstance().getConnection();
-//        String sql = "SELECT * FROM user";
-//        PreparedStatement pstm = connection.prepareStatement(sql);
+    public List<User> loadAll() throws SQLException {
 
-        ArrayList<UserDto> dtoList= new ArrayList<>();
+        ArrayList<User> dtoList= new ArrayList<>();
 
         ResultSet resultSet=sqlUtil.execute("SELECT * FROM user");
 
         while (resultSet.next()){
-            dtoList.add(new UserDto(
+            dtoList.add(new User(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
@@ -84,11 +77,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public String getPassword(String name) throws SQLException {
-//        Connection connection = DbConnection.getInstance().getConnection();
-//        String sql = "SELECT password FROM user WHERE name = ?";
-//        PreparedStatement pstm = connection.prepareStatement(sql);
-//
-//        pstm.setString(1,name);
 
         ResultSet resultSet = sqlUtil.execute("SELECT password FROM user WHERE name = ?",name);
 
@@ -98,11 +86,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public String getEmail(String name) throws SQLException {
-//        Connection connection = DbConnection.getInstance().getConnection();
-//        String sql = "SELECT email FROM user WHERE name = ?";
-//        PreparedStatement pstm = connection.prepareStatement(sql);
-//
-//        pstm.setString(1,name);
 
 
         ResultSet resultSet = sqlUtil.execute("SELECT email FROM user WHERE name = ?",name

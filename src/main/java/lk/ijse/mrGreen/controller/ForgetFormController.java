@@ -10,9 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import lk.ijse.mrGreen.DAO.Custom.UserDAO;
-import lk.ijse.mrGreen.DAO.Custom.Impl.UserDAOImpl;
-import lk.ijse.mrGreen.DAO.DAOFactory;
+import lk.ijse.mrGreen.BO.BOFactory;
+import lk.ijse.mrGreen.BO.Custom.Impl.UserBOImpl;
 import lk.ijse.mrGreen.dto.UserDto;
 
 
@@ -28,7 +27,7 @@ public class ForgetFormController {
     @FXML
     private JFXTextField txtUserName;
 
-    private UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.USER);
+    private UserBOImpl userBO = (UserBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.USER);
 
     @FXML
     void checkOnAction(ActionEvent event) {
@@ -36,15 +35,15 @@ public class ForgetFormController {
 
         try {
 
-            UserDto isUSer = userDAO.search(name);
+            UserDto isUSer = userBO.searchUser(name);
 
             if (isUSer==null){
                 new Alert(Alert.AlertType.ERROR,"You are not a User").show();
                 return;
             }
 
-            String pw = userDAO.getPassword(name);
-            String email = userDAO.getEmail(name);
+            String pw = userBO.getUserPassword(name);
+            String email = userBO.getUserEmail(name);
 
             System.out.println("Start");
             SendMailController.Mail mail = new SendMailController.Mail(); //creating an instance of Mail class

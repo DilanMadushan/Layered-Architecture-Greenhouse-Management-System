@@ -2,6 +2,7 @@ package lk.ijse.mrGreen.DAO.Custom.Impl;
 
 import lk.ijse.mrGreen.DAO.Custom.SupplierDAO;
 import lk.ijse.mrGreen.DAO.SQLUtil;
+import lk.ijse.mrGreen.Entity.Supplier;
 import lk.ijse.mrGreen.db.DbConnection;
 import lk.ijse.mrGreen.dto.SupplierDto;
 
@@ -15,19 +16,14 @@ import java.util.List;
 public class SupplierDAOImpl implements SupplierDAO {
 
     SQLUtil sqlUtil = new SQLUtil();
-    public List<SupplierDto> loadAll() throws SQLException {
-
-//        Connection connection = DbConnection.getInstance().getConnection();
-//
-//        String sql = "SELECT * FROM supplier";
-//        PreparedStatement pstm = connection.prepareStatement(sql);
+    public List<Supplier> loadAll() throws SQLException {
 
         ResultSet resultSet = sqlUtil.execute("SELECT * FROM supplier");
 
-        List<SupplierDto> supList = new ArrayList<>();
+        List<Supplier> supList = new ArrayList<>();
 
         while (resultSet.next()){
-            supList.add(new SupplierDto(
+            supList.add(new Supplier(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
@@ -40,24 +36,7 @@ public class SupplierDAOImpl implements SupplierDAO {
         return supList;
     }
 
-    public boolean save(SupplierDto dto) throws SQLException {
-//        Connection connection = DbConnection.getInstance().getConnection();
-//        String sql = "INSERT INTO supplier VALUES(?,?,?,?,?)";
-//
-//        PreparedStatement pstm = connection.prepareStatement(sql);
-//
-//        pstm.setString(1,dto.getSup_id());
-//        pstm.setString(2,dto.getName());
-//        pstm.setString(3, dto.getCompany());
-//        pstm.setString(4,dto.getTel());
-//        pstm.setString(5,dto.getUser_id());
-//
-//        try {
-//            return pstm.executeUpdate() > 0;
-//        }catch (Exception e){
-//
-//        }
-//        return false;
+    public boolean save(Supplier dto) throws SQLException {
 
         Object object = search(dto.getSup_id());
 
@@ -71,36 +50,16 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     public boolean delete(String id) throws SQLException {
-//        Connection connection = DbConnection.getInstance().getConnection();
-//        String sql = "DELETE FROM supplier WHERE sup_id = ?";
-//        PreparedStatement pstm = connection.prepareStatement(sql);
-//
-//        pstm.setString(1,id);
-//
-//        return pstm.executeUpdate() > 0;
-
         return sqlUtil.execute("DELETE FROM supplier WHERE sup_id = ?",id);
     }
 
-    public boolean update(SupplierDto dto) throws SQLException {
-//        Connection connection = DbConnection.getInstance().getConnection();
-//        String sql = "UPDATE supplier SET name = ?, company = ?, tel = ?, user_id = ? WHERE sup_id =?";
-//        PreparedStatement pstm = connection.prepareStatement(sql);
-//
-//        pstm.setString(1,dto.getName());
-//        pstm.setString(2, dto.getCompany());
-//        pstm.setString(3,dto.getTel());
-//        pstm.setString(4,dto.getUser_id());
-//        pstm.setString(5,dto.getSup_id());
+    public boolean update(Supplier dto) throws SQLException {
 
         return sqlUtil.execute("UPDATE supplier SET name = ?, company = ?, tel = ?, user_id = ? WHERE sup_id =?",
                 dto.getName(),dto.getCompany(),dto.getTel(),dto.getUser_id(),dto.getSup_id());
     }
 
     public int getCount() throws SQLException {
-//        Connection connection = DbConnection.getInstance().getConnection();
-//        String sql ="SELECT COUNT(*)As sup_count from supplier";
-//        PreparedStatement pstm = connection.prepareStatement(sql);
 
         ResultSet resultSet = sqlUtil.execute("SELECT COUNT(*)As sup_count from supplier");
 
@@ -115,19 +74,14 @@ public class SupplierDAOImpl implements SupplierDAO {
         return null;
     }
 
-    public SupplierDto search(String suppId) throws SQLException {
-//        Connection connection =DbConnection.getInstance().getConnection();
-//        String sql = "SELECT * FROM supplier WHERE sup_id = ?";
-//        PreparedStatement pstm = connection.prepareStatement(sql);
-//
-//        pstm.setString(1,suppId);
+    public Supplier search(String suppId) throws SQLException {
 
         ResultSet resultSet = sqlUtil.execute("SELECT * FROM supplier WHERE sup_id = ?",suppId);
 
-        SupplierDto dto = null;
+        Supplier dto = null;
 
         if(resultSet.next()){
-            dto = new SupplierDto(
+            dto = new Supplier(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),

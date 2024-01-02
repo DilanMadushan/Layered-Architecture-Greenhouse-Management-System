@@ -12,9 +12,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import lk.ijse.mrGreen.DAO.Custom.UserDAO;
-import lk.ijse.mrGreen.DAO.Custom.Impl.UserDAOImpl;
-import lk.ijse.mrGreen.DAO.DAOFactory;
+import lk.ijse.mrGreen.BO.BOFactory;
+import lk.ijse.mrGreen.BO.Custom.Impl.UserBOImpl;
 import lk.ijse.mrGreen.dto.UserDto;
 
 
@@ -30,7 +29,7 @@ public class LoginController {
     @FXML
     private AnchorPane root;
 
-    private UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.USER);
+    private UserBOImpl userBO = (UserBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.USER);
 
     public void initialize(){
         txtPAssWord.setVisible(false);
@@ -53,7 +52,7 @@ public class LoginController {
         String password= txtPassword.getText();
 
         try {
-            UserDto userDto = userDAO.search(name);
+            UserDto userDto = userBO.searchUser(name);
             if(userDto!=null){
                 if( name.equals(userDto.getName()) && password.equals(userDto.getPassword())){
                     AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/DashBoard.fxml"));

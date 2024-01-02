@@ -16,13 +16,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.mrGreen.DAO.Custom.FertilizerDAO;
-import lk.ijse.mrGreen.DAO.Custom.Impl.FertilizerDAOImpl;
-import lk.ijse.mrGreen.DAO.Custom.Impl.LettuceDAOImpl;
-import lk.ijse.mrGreen.DAO.Custom.Impl.SupplierDAOImpl;
-import lk.ijse.mrGreen.DAO.Custom.LettuceDAO;
-import lk.ijse.mrGreen.DAO.Custom.SupplierDAO;
-import lk.ijse.mrGreen.DAO.DAOFactory;
+import lk.ijse.mrGreen.BO.BOFactory;
+import lk.ijse.mrGreen.BO.Custom.Impl.FertilizerBOImpl;
+import lk.ijse.mrGreen.BO.Custom.Impl.LettuceBOImpl;
+import lk.ijse.mrGreen.BO.Custom.Impl.SupplierBOImpl;
 import lk.ijse.mrGreen.dto.Fertilizerdto;
 import lk.ijse.mrGreen.dto.LettuceDto;
 import lk.ijse.mrGreen.dto.SupplierDto;
@@ -84,9 +81,9 @@ public class FertilizerFormController {
     @FXML
     private JFXTextField txtUnit;
 
-    private SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.SUPPLIER);
-    private LettuceDAO lettuceDAO = (LettuceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.LETTUCE);
-    private FertilizerDAO fertilizerDAO = (FertilizerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.FERTILIZER);
+    private SupplierBOImpl supplierBO = (SupplierBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.SUPPLIER);
+    private LettuceBOImpl lettuceBO = (LettuceBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.LETTUCE);
+    private FertilizerBOImpl fertilizerBO = (FertilizerBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.FERTILIZER);
 
     public void initialize(){
         loadAllSupplier();
@@ -100,7 +97,7 @@ public class FertilizerFormController {
         ObservableList<FertilizerTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<Fertilizerdto> dtoList = fertilizerDAO.loadAll();
+            List<Fertilizerdto> dtoList = fertilizerBO.loadAllFertilizer();
 
             for (Fertilizerdto dto: dtoList) {
                 obList.add(new FertilizerTm(
@@ -136,7 +133,7 @@ public class FertilizerFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<LettuceDto> lettuceDto= lettuceDAO.loadAll();
+            List<LettuceDto> lettuceDto= lettuceBO.loadAllLettuce();
 
             for (LettuceDto dto: lettuceDto) {
                 obList.add(dto.getId());
@@ -152,7 +149,7 @@ public class FertilizerFormController {
 
 
         try {
-            List<SupplierDto> supDto = supplierDAO.loadAll();
+            List<SupplierDto> supDto = supplierBO.loadAllSupplier();
             for (SupplierDto dto: supDto) {
                 obList.add(dto.getSup_id());
             }
@@ -184,7 +181,7 @@ public class FertilizerFormController {
             var dto = new Fertilizerdto(id, name, company, unit, qty, supId, l_id);
 
             try {
-                boolean isSaved = fertilizerDAO.save(dto);
+                boolean isSaved = fertilizerBO.saveFertilizer(dto);
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Added Successfully").show();
                     initialize();
@@ -267,7 +264,7 @@ public class FertilizerFormController {
         String id = txtId.getText();
 
         try {
-            boolean isDelete = fertilizerDAO.delete(id);
+            boolean isDelete = fertilizerBO.deleteFertilizer(id);
             if (isDelete) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Delete Successfully").show();
                 initialize();
@@ -299,7 +296,7 @@ public class FertilizerFormController {
             var dto = new Fertilizerdto(id, name, company, unit, qty, supId, l_id);
 
             try {
-                boolean isUpdated = fertilizerDAO.update(dto);
+                boolean isUpdated = fertilizerBO.updateFertilizer(dto);
                 if (isUpdated) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Updated Successfully").show();
                     initialize();

@@ -12,13 +12,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.mrGreen.DAO.Custom.CustomerDAO;
-import lk.ijse.mrGreen.DAO.Custom.EmployeeDAO;
-import lk.ijse.mrGreen.DAO.Custom.Impl.CustomerDAOImpl;
-import lk.ijse.mrGreen.DAO.Custom.Impl.EmployeeDAOImpl;
-import lk.ijse.mrGreen.DAO.Custom.Impl.SupplierDAOImpl;
-import lk.ijse.mrGreen.DAO.Custom.SupplierDAO;
-import lk.ijse.mrGreen.DAO.DAOFactory;
+import lk.ijse.mrGreen.BO.BOFactory;
+import lk.ijse.mrGreen.BO.Custom.Impl.CustomerBOImpl;
+import lk.ijse.mrGreen.BO.Custom.Impl.EmployeeBOImpl;
+import lk.ijse.mrGreen.BO.Custom.Impl.SupplierBOImpl;
 import lk.ijse.mrGreen.dto.CustomerDto;
 import lk.ijse.mrGreen.dto.EmployeeDto;
 import lk.ijse.mrGreen.dto.SupplierDto;
@@ -45,9 +42,9 @@ public class ReportFormController {
     @FXML
     private AnchorPane Anchor;
 
-    private CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.CUSTOMER);
-    private EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.EMPLOYEE);
-    private SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.SUPPLIER);
+    private CustomerBOImpl customerBO = (CustomerBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.CUSTOMER);
+    private EmployeeBOImpl employeeBO = (EmployeeBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.EMPLOYEE);
+    private SupplierBOImpl supplierBO = (SupplierBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.SUPPLIER);
 
     public void initialize(){
         loadAllCustomer();
@@ -59,7 +56,7 @@ public class ReportFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<SupplierDto> dtoList = supplierDAO.loadAll() ;
+            List<SupplierDto> dtoList = supplierBO.loadAllSupplier();
             for (SupplierDto dto: dtoList) {
                 obList.add(dto.getSup_id());
             }
@@ -73,7 +70,7 @@ public class ReportFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> dtoList = employeeDAO.loadAll();
+            List<EmployeeDto> dtoList = employeeBO.loadAllEmployee();
             for (EmployeeDto dto: dtoList) {
                 obList.add(dto.getId());
             }
@@ -88,7 +85,7 @@ public class ReportFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> dtoList = customerDAO.loadAll();
+            List<CustomerDto> dtoList = customerBO.loadAllCustomer();
             for (CustomerDto  dto: dtoList) {
                 obList.add(dto.getId());
             }
@@ -109,7 +106,7 @@ public class ReportFormController {
         }
 
         try {
-            CustomerDto dto = customerDAO.search(cus_id);
+            CustomerDto dto = customerBO.searchCustomer(cus_id);
             System.out.println(dto.getId());
             System.out.println(dto.getName());
             System.out.println(dto.getAddress());
@@ -168,7 +165,7 @@ public class ReportFormController {
         }
 
         try {
-            EmployeeDto dto = employeeDAO.search(empId);
+            EmployeeDto dto = employeeBO.searchEmployee(empId);
             if (dto!=null) {
                 viewEmployeeReport(dto);
             }
@@ -210,7 +207,7 @@ public class ReportFormController {
         }
 
         try {
-            SupplierDto dto = supplierDAO.search(suppId);
+            SupplierDto dto = supplierBO.searchSupplier(suppId);
             if(dto!=null){
                 viewSupplierReport(dto);
             }

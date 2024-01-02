@@ -16,11 +16,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.mrGreen.DAO.Custom.GreenHouseDAO;
-import lk.ijse.mrGreen.DAO.Custom.Impl.GreenHouseDAOImpl;
-import lk.ijse.mrGreen.DAO.Custom.LettuceDAO;
-import lk.ijse.mrGreen.DAO.Custom.Impl.LettuceDAOImpl;
-import lk.ijse.mrGreen.DAO.DAOFactory;
+import lk.ijse.mrGreen.BO.BOFactory;
+import lk.ijse.mrGreen.BO.Custom.Impl.GreenhouseBOImpl;
+import lk.ijse.mrGreen.BO.Custom.Impl.LettuceBOImpl;
 import lk.ijse.mrGreen.dto.GreenHouseDto;
 import lk.ijse.mrGreen.dto.LettuceDto;
 import lk.ijse.mrGreen.dto.tm.GreenHouseTm;
@@ -68,8 +66,8 @@ public class GreenhouseFormController {
     @FXML
     private JFXTextField txtTemp;
 
-    private GreenHouseDAO greenHouseDAO = (GreenHouseDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.GREENHOUSE);
-    private LettuceDAO lettuceDAO = (LettuceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.LETTUCE);
+    private GreenhouseBOImpl greenhouseBO = (GreenhouseBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.GREENHOUSE);
+    private LettuceBOImpl lettuceBO = (LettuceBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.LETTUCE);
 
     public void initialize(){
         loadAllLettuceID();
@@ -81,7 +79,7 @@ public class GreenhouseFormController {
         ObservableList<GreenHouseTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<GreenHouseDto> dtoList = greenHouseDAO.loadAll();
+            List<GreenHouseDto> dtoList = greenhouseBO.loadAllGreenhouse();
             for (GreenHouseDto dto: dtoList) {
                 obList.add(new GreenHouseTm(
                         dto.getId(),
@@ -111,7 +109,7 @@ public class GreenhouseFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<LettuceDto> lettuceDto= lettuceDAO.loadAll();
+            List<LettuceDto> lettuceDto= lettuceBO.loadAllLettuce();
 
             for (LettuceDto dto: lettuceDto) {
                 obList.add(dto.getId());
@@ -137,7 +135,7 @@ public class GreenhouseFormController {
             var dto = new GreenHouseDto(id, name, letId, 0, temp, ph);
 
             try {
-                boolean isSaved = greenHouseDAO.save(dto);
+                boolean isSaved = greenhouseBO.saveGreenhouse(dto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Added Successfully").show();
@@ -194,7 +192,7 @@ public class GreenhouseFormController {
         String id = txtId.getText();
 
         try {
-            boolean isDelete= greenHouseDAO.delete(id);
+            boolean isDelete= greenhouseBO.deleteGreenhouse(id);
 
             if (isDelete) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Delete Successfully").show();
@@ -225,7 +223,7 @@ public class GreenhouseFormController {
             var dto = new GreenHouseDto(id, name, letId, 0, temp, ph);
 
             try {
-                boolean isUpdated = greenHouseDAO.update(dto);
+                boolean isUpdated = greenhouseBO.updateGreenhouse(dto);
 
                 if (isUpdated) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Update Successfully").show();

@@ -17,6 +17,4 @@ public class PlaceOrderDto {
     private LocalDate date;
     private String cus_id;
     private List<CartTm> cartTmList = new ArrayList<>();
-
-
 }

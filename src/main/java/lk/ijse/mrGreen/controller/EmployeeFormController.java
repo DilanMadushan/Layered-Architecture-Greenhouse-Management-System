@@ -15,9 +15,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.mrGreen.DAO.Custom.Impl.EmployeeDAOImpl;
-import lk.ijse.mrGreen.DAO.Custom.EmployeeDAO;
-import lk.ijse.mrGreen.DAO.DAOFactory;
+import lk.ijse.mrGreen.BO.BOFactory;
+import lk.ijse.mrGreen.BO.Custom.Impl.EmployeeBOImpl;
 import lk.ijse.mrGreen.dto.EmployeeDto;
 import lk.ijse.mrGreen.dto.tm.EmployeeTm;
 
@@ -72,7 +71,7 @@ public class EmployeeFormController {
     @FXML
     private JFXTextField txtSalary;
 
-    private EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.EMPLOYEE);
+    private EmployeeBOImpl employeeBO = (EmployeeBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.EMPLOYEE);
 
     public void initialize(){
         setCellValues();
@@ -92,7 +91,7 @@ public class EmployeeFormController {
         ObservableList<EmployeeTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> dtoList = employeeDAO.loadAll();
+            List<EmployeeDto> dtoList = employeeBO.loadAllEmployee();
 
             for (EmployeeDto dto: dtoList) {
                 obList.add(new EmployeeTm(
@@ -137,7 +136,7 @@ public class EmployeeFormController {
             var dto = new EmployeeDto(id, name, age, address, job, salary);
 
             try {
-                boolean isSaved = employeeDAO.save(dto);
+                boolean isSaved = employeeBO.saveEmployee(dto);
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Added Succesfully").show();
                     initialize();
@@ -201,7 +200,7 @@ public class EmployeeFormController {
         String id = txtId.getText();
 
         try {
-            boolean isDeleted = employeeDAO.delete(id);
+            boolean isDeleted = employeeBO.deleteEmployee(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Delete Successfully").show();
                 initialize();
@@ -232,7 +231,7 @@ public class EmployeeFormController {
             var dto = new EmployeeDto(id, name, age, address, job, salary);
 
             try {
-                boolean isSaved = employeeDAO.update(dto);
+                boolean isSaved = employeeBO.updateEmployee(dto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Updated Successfully").show();

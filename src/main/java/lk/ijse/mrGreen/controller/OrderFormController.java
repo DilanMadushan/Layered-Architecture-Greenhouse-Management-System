@@ -16,15 +16,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import lk.ijse.mrGreen.DAO.Custom.CustomerDAO;
-import lk.ijse.mrGreen.DAO.Custom.Impl.CustomerDAOImpl;
-import lk.ijse.mrGreen.DAO.Custom.Impl.LettuceDAOImpl;
-import lk.ijse.mrGreen.DAO.Custom.Impl.OrderDAOImpl;
-import lk.ijse.mrGreen.DAO.Custom.Impl.OrderDetailDAOImpl;
-import lk.ijse.mrGreen.DAO.Custom.LettuceDAO;
-import lk.ijse.mrGreen.DAO.Custom.OrderDAO;
-import lk.ijse.mrGreen.DAO.Custom.OrderDetailDAO;
-import lk.ijse.mrGreen.DAO.DAOFactory;
+import lk.ijse.mrGreen.BO.BOFactory;
+import lk.ijse.mrGreen.BO.Custom.Impl.CustomerBOImpl;
+import lk.ijse.mrGreen.BO.Custom.Impl.LettuceBOImpl;
+import lk.ijse.mrGreen.BO.Custom.Impl.OrderBOImpl;
+import lk.ijse.mrGreen.BO.Custom.Impl.OrderDetailBOImpl;
 import lk.ijse.mrGreen.db.DbConnection;
 import lk.ijse.mrGreen.dto.*;
 import lk.ijse.mrGreen.dto.tm.CartTm;
@@ -97,13 +93,13 @@ public class OrderFormController {
     Integer index;
 
 
-    private OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.ORDER);
+    private OrderBOImpl orderBO = (OrderBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.ORDER);
 
-    private CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.CUSTOMER);
+    private CustomerBOImpl customerBO = (CustomerBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.CUSTOMER);
 
-    private LettuceDAO lettuceDAO = (LettuceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.LETTUCE);
+    private LettuceBOImpl lettuceBO = (LettuceBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.LETTUCE);
 
-    private OrderDetailDAO orderDetailDAO = (OrderDetailDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.ORDERDETAILS);
+    private OrderDetailBOImpl orderDetailBO = (OrderDetailBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.ORDERDETAILS);
 
     private ObservableList<CartTm> obList =FXCollections.observableArrayList();
 
@@ -130,7 +126,7 @@ public class OrderFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<LettuceDto> dtoList = lettuceDAO.loadAll();
+            List<LettuceDto> dtoList = lettuceBO.loadAllLettuce();
             for (LettuceDto dto: dtoList) {
                 obList.add(dto.getId());
             }
@@ -144,7 +140,7 @@ public class OrderFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> dtoList = customerDAO.loadAll();
+            List<CustomerDto> dtoList = customerBO.loadAllCustomer();
             for (CustomerDto dto: dtoList) {
                 obList.add(dto.getId());
             }
@@ -156,7 +152,7 @@ public class OrderFormController {
 
     private void genarateOrderId() {
         try {
-            String id = orderDAO.genarateOrderId();
+            String id = orderBO.genarateOrderId();
             oId.setText(id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -295,14 +291,14 @@ public class OrderFormController {
             connection.setAutoCommit(false);
 
 
-            boolean isOrderSaved = orderDAO.save(new OrderDto(o_id, cus_id, date));
+            boolean isOrderSaved = orderBO.saveOrder(new OrderDto(o_id, cus_id, date));
             System.out.println("1 " + isOrderSaved );
             if (isOrderSaved) {
                 System.out.println("1 " + isOrderSaved );
-                boolean isUpdate = lettuceDAO.updateLettuceQty(placeOrderDto.getCartTmList());
+                boolean isUpdate = lettuceBO.updateLettuceQty(placeOrderDto.getCartTmList());
                 if (isUpdate) {
                     System.out.println("1 " + isUpdate);
-                    boolean isOrderDetailSaved = orderDetailDAO.save(new OrderDetailsDto( placeOrderDto.getOrder_id(), placeOrderDto.getCartTmList()));
+                    boolean isOrderDetailSaved = orderDetailBO.saveOrderDetail(new OrderDetailsDto( placeOrderDto.getOrder_id(), placeOrderDto.getCartTmList()));
                     if (isOrderDetailSaved) {
                         System.out.println("1 " + isOrderDetailSaved);
                         connection.commit();
@@ -361,7 +357,7 @@ public class OrderFormController {
         String id = (String) cmbLettId.getValue();
 
         try {
-            LettuceDto dtoList = lettuceDAO.search(id);
+            LettuceDto dtoList = lettuceBO.searchLettuce(id);
 
             txtLettName.setText(dtoList.getName());
             txtQtyOnHand.setText(Double.toString(dtoList.getQty()));
@@ -379,7 +375,7 @@ public class OrderFormController {
         String id = (String) cmdCustomerId.getValue();
 
         try {
-            String Name = customerDAO.getName(id);
+            String Name = customerBO.getCustomerName(id);
             txtCusName.setText(Name);
             cmbLettId.requestFocus();
         } catch (SQLException e) {

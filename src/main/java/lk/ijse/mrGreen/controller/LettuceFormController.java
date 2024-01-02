@@ -15,11 +15,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import lk.ijse.mrGreen.DAO.Custom.LettuceDAO;
-import lk.ijse.mrGreen.DAO.Custom.Impl.LettuceDAOImpl;
-import lk.ijse.mrGreen.DAO.Custom.SupplierDAO;
-import lk.ijse.mrGreen.DAO.Custom.Impl.SupplierDAOImpl;
-import lk.ijse.mrGreen.DAO.DAOFactory;
+import lk.ijse.mrGreen.BO.BOFactory;
+import lk.ijse.mrGreen.BO.Custom.Impl.LettuceBOImpl;
+import lk.ijse.mrGreen.BO.Custom.Impl.SupplierBOImpl;
 import lk.ijse.mrGreen.dto.LettuceDto;
 import lk.ijse.mrGreen.dto.SupplierDto;
 import lk.ijse.mrGreen.dto.tm.LettuceTm;
@@ -83,8 +81,8 @@ public class LettuceFormController {
     @FXML
     private TableColumn<?, ?> colUnit;
 
-    private SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.SUPPLIER);
-    private LettuceDAO lettuceDAO = (LettuceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.LETTUCE);
+    private SupplierBOImpl supplierBO = (SupplierBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.SUPPLIER);
+    private LettuceBOImpl lettuceBO = (LettuceBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.LETTUCE);
 
 
     public void initialize(){
@@ -109,7 +107,7 @@ public class LettuceFormController {
     ObservableList<LettuceTm> obList= FXCollections.observableArrayList();
 
         try {
-            List<LettuceDto> dto = lettuceDAO.loadAll();
+            List<LettuceDto> dto = lettuceBO.loadAllLettuce();
 
             for (LettuceDto list: dto) {
                 obList.add(new LettuceTm(
@@ -136,7 +134,7 @@ public class LettuceFormController {
 
 
         try {
-            List<SupplierDto> supDto = supplierDAO.loadAll();
+            List<SupplierDto> supDto = supplierBO.loadAllSupplier();
             for (SupplierDto dto: supDto) {
                 obList.add(dto.getSup_id());
             }
@@ -168,7 +166,7 @@ public class LettuceFormController {
 
 
             try {
-                boolean isSaved = lettuceDAO.save(dto);
+                boolean isSaved = lettuceBO.saveLettuce(dto);
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Saved Successfully").show();
                     initialize();
@@ -244,7 +242,7 @@ public class LettuceFormController {
         String id=txtId.getText();
 
         try {
-            boolean isDelete =lettuceDAO.delete(id);
+            boolean isDelete =lettuceBO.deleteLettuce(id);
 
             if (isDelete) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Delete Successfully").show();
@@ -277,7 +275,7 @@ public class LettuceFormController {
             var dto = new LettuceDto(id, name, temp, humid, qty, seed, unit, suppId);
 
             try {
-                boolean isUpdated = lettuceDAO.update(dto);
+                boolean isUpdated = lettuceBO.updateLettuce(dto);
                 if (isUpdated) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Updated Successfully").show();
                     initialize();

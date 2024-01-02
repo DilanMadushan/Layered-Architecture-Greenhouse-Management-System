@@ -2,6 +2,7 @@ package lk.ijse.mrGreen.DAO.Custom.Impl;
 
 import lk.ijse.mrGreen.DAO.Custom.OrderDAO;
 import lk.ijse.mrGreen.DAO.SQLUtil;
+import lk.ijse.mrGreen.Entity.Order;
 import lk.ijse.mrGreen.db.DbConnection;
 import lk.ijse.mrGreen.dto.LettuceDto;
 import lk.ijse.mrGreen.dto.OrderDto;
@@ -13,9 +14,6 @@ public class OrderDAOImpl implements OrderDAO {
 
     SQLUtil sqlUtil = new SQLUtil();
     public String genarateOrderId() throws SQLException {
-//        Connection connection = DbConnection.getInstance().getConnection();
-//        String sql = "SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1";
-//        PreparedStatement pstm = connection.prepareStatement(sql);
 
         ResultSet resultSet = sqlUtil.execute( "SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1");
 
@@ -45,21 +43,7 @@ public class OrderDAOImpl implements OrderDAO {
         return "O001";
     }
 
-    public boolean save(OrderDto orderDto) throws SQLException {
-        //System.out.println(oId+""+cusId+""+date);
-//        Connection connection = DbConnection.getInstance().getConnection();
-//        String sql = "INSERT INTO orders VALUES(?,?,?)";
-//        PreparedStatement pstm = connection.prepareStatement(sql);
-//
-//        pstm.setString(1,orderDto.getOrderId());
-//        pstm.setString(2,orderDto.getCusId());
-//        pstm.setDate(3, Date.valueOf(orderDto.getDate()));
-//
-//        try {
-//            return pstm.executeUpdate() > 0;
-//        }catch (Exception e){
-//
-//        }
+    public boolean save(Order orderDto) throws SQLException {
 
         return sqlUtil.execute("INSERT INTO orders VALUES(?,?,?)",
                 orderDto.getOrderId(),orderDto.getCusId(),Date.valueOf(orderDto.getDate()));
@@ -71,19 +55,16 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public boolean update(OrderDto dto) throws SQLException {
+    public boolean update(Order dto) throws SQLException {
         return false;
     }
 
     @Override
-    public List<OrderDto> loadAll() throws SQLException {
+    public List<Order> loadAll() throws SQLException {
         return null;
     }
 
     public int getCount() throws SQLException {
-//        Connection connection = DbConnection.getInstance().getConnection();
-//        String sql ="SELECT COUNT(*) AS num_of_orders FROM orders";
-//        PreparedStatement pstm = connection.prepareStatement(sql);
 
         ResultSet resultSet=sqlUtil.execute("SELECT COUNT(*) AS num_of_orders FROM orders");
 
@@ -99,12 +80,12 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public OrderDto search(String cusId) throws SQLException {
-        OrderDto dto = null;
+    public Order search(String cusId) throws SQLException {
+        Order dto = null;
 
         ResultSet resultSet = sqlUtil.execute("SELECT * FROM orders WHERE order_id = ?");
         if(resultSet.next()){
-            dto = new OrderDto(
+            dto = new Order(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getDate(3).toLocalDate()

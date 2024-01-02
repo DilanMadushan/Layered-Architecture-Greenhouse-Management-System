@@ -15,9 +15,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.mrGreen.DAO.Custom.CustomerDAO;
-import lk.ijse.mrGreen.DAO.Custom.Impl.CustomerDAOImpl;
-import lk.ijse.mrGreen.DAO.DAOFactory;
+import lk.ijse.mrGreen.BO.BOFactory;
+import lk.ijse.mrGreen.BO.Custom.Impl.CustomerBOImpl;
 import lk.ijse.mrGreen.dto.CustomerDto;
 import lk.ijse.mrGreen.dto.tm.CustomerTm;
 
@@ -58,7 +57,7 @@ public class CustomerFormController {
     @FXML
     private JFXTextField txtPhone;
 
-    private CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DTOTypes.CUSTOMER);
+    private CustomerBOImpl customerBO = (CustomerBOImpl) BOFactory.getBoFactory().getBo(BOFactory.BOTypes.CUSTOMER);
 
 
     public void initialize(){
@@ -70,7 +69,7 @@ public class CustomerFormController {
         ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> dtoList =customerDAO.loadAll();
+            List<CustomerDto> dtoList =customerBO.loadAllCustomer();
 
             for (CustomerDto dto: dtoList) {
                 obList.add(new CustomerTm(
@@ -109,7 +108,7 @@ public class CustomerFormController {
             CustomerDto dto = new CustomerDto(id, name, address, tel);
 
             try {
-                boolean isSaved = customerDAO.save(dto);
+                boolean isSaved = customerBO.saveCustomer(dto);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Added Successfilly").show();
@@ -161,7 +160,7 @@ public class CustomerFormController {
         String id = txtId.getText();
 
         try {
-            boolean isDelete = customerDAO.delete(id);
+            boolean isDelete = customerBO.deleteCustomer(id);
             if (isDelete) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Delete Successfully").show();
                 initialize();
@@ -188,7 +187,7 @@ public class CustomerFormController {
             CustomerDto dto = new CustomerDto(id, name, address, tel);
 
             try {
-                boolean isUpdated = customerDAO.update(dto);
+                boolean isUpdated = customerBO.updateCustomer(dto);
                 if (isUpdated) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Updated Successfully").show();
                     initialize();
